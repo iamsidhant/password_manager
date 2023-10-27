@@ -6,9 +6,33 @@ function makePassword(pass){
     return str
 }
 
-function copyText(){}
+function copyText(txt){
+    navigator.clipboard.writeText(txt).then(
+        () => {
+        /* clipboard successfully set */
+        document.getElementById("alert").style.display = "inline"
+        setInterval(() => {
+            document.getElementById("alert").style.display = "none"
+        }, 2000);
 
-const deletePassword = () => {}
+    },
+    () => {
+        /* clipboard write failed */
+        alert("Clipboard copying failed")
+    },
+    );
+}
+
+const deletePassword = (website) => {
+    let data = localStorage.getItem("passwords")
+    let arr = JSON.parse("data");
+    arrUpdated = arr.filer((e) => {
+        return e.website != website
+    })
+    localStorage.setItem("passwords", JSON.stringify(arrUpdated))
+    alert(`Successfully deleted ${website}'s password`)
+    showPasswords()
+}
 
 // Logic to fill the table
 const showPasswords = () => {
